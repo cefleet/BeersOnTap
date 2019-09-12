@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext } from 'react';
+import { MainBox, Box, HeaderItem, Button } from "simplestyle";
+import Tap from "./components/Tap";
+import {TapsContext} from "./context/TapsContext";
+const App = () => {
 
-function App() {
+  const {taps,addTap} = useContext(TapsContext);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <MainBox layout="mobile">
+        <Button position="absolute" top="37px" fontSize="12px" label="Add Tap" onClick={addTap} />
+        <HeaderItem>Tap List</HeaderItem>
+        <Box>
+          
+          {
+            taps.map(t => <Tap key={t.id} id={t.id} beerId={t.beer} />)
+          }
+        </Box>
+      </MainBox>
+  )
 }
 
 export default App;
