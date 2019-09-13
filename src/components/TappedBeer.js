@@ -1,19 +1,19 @@
 import React, {useState, useContext, useEffect} from "react";
-import {Box,Button} from "simplestyle";
+import {Box,Button, FlexBox} from "simplestyle";
 import SelectBeer from "./SelectBeer";
 import { BeersContext} from "../context/BeersContext";
 import {TapsContext} from "../context/TapsContext";
+import SelectableBeer from "./SelectableBeer";
 
-const TappedBeer = ({id, tapId})=>{
+const TappedBeer = ({id, tapId})=>{  
 
     const {beers} = useContext(BeersContext);
     const [beer,setBeer] = useState(beers.filter(b=>b.id === id)[0]);
-    const {updateTap} = useContext(TapsContext);
+    const {updateTap} = useContext(TapsContext);    
 
     useEffect(()=>{
         setBeer(beers.filter(b=>b.id === id)[0]);
         setSettingBeer(false);
-
     },[id,beers])
 
     const [settingBeer,setSettingBeer] = useState(false);
@@ -23,19 +23,24 @@ const TappedBeer = ({id, tapId})=>{
     }
 
     if(settingBeer){
-        return (<SelectBeer tapId={tapId} />)
+        return (
+        <Box>
+            <SelectBeer tapId={tapId}  />
+            <Button label={"Cancel"} onClick={() => setSettingBeer(false)} />
+        </Box>
+        )
     }
     
     if(beer){
         return(
-            <Box display="flex" alignItems="flex-start" wrap="nowrap" justifyContent="flex-start" >
-                <Box onClick={()=>setSettingBeer(true)} border="1px solid">{beer.company} - {beer.name} | {beer.style} | {beer.city}, {beer.state} \ {beer.abv}% abv - ${beer.price}</Box>
-                <Button label={"x"} background={"red"} padding="2px 6px" margin="0 10px" fontSize="16px" onClick={() => removeBeerFromTap(tapId)} />
-            </Box>
+            <FlexBox >
+                <SelectableBeer beer={beer} onClick={()=>setSettingBeer(true)} />
+                <Button label={"x"} background={"red"} onClick={() => removeBeerFromTap(tapId)} />
+            </FlexBox>
         )
     } 
     
-    return(<Button label={"Add Beer To Tap"} onClick={()=>setSettingBeer(true)} />)
+    return(<Box><Button label={"Add Beer To Tap"} onClick={()=>setSettingBeer(true)} /></Box>)
     
 }
 export default TappedBeer;

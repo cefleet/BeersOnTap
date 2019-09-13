@@ -1,23 +1,14 @@
-import React, { useContext } from 'react';
-import { MainBox, Box, HeaderItem, Button } from "simplestyle";
-import Tap from "./components/Tap";
-import {TapsContext} from "./context/TapsContext";
+import React from "react";
+import Admin from "./Admin";
+import Present from "./Present";
+
 const App = () => {
+  let url = new URLSearchParams(window.location.search);
 
-  const {taps,addTap} = useContext(TapsContext);
-
-  return (
-      <MainBox layout="mobile">
-        <Button position="absolute" top="37px" fontSize="12px" label="Add Tap" onClick={addTap} />
-        <HeaderItem>Tap List</HeaderItem>
-        <Box>
-          
-          {
-            taps.map(t => <Tap key={t.id} id={t.id} beerId={t.beer} />)
-          }
-        </Box>
-      </MainBox>
-  )
+  if(url.get("view") === "present"){
+    return <Present />
+  }
+  return <Admin />
 }
 
 export default App;
