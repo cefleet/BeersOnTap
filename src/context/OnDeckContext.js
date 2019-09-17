@@ -5,6 +5,7 @@ const OnDeckContext = createContext();
 function OnDeckContextProvider(props) {
     const [onDeck, setOnDeck] = useState([]);
     const { updateItems, getItems } = Store();
+    const [init, setInit] = useState(true);
 
     useEffect(() => {
         getItems("onDeck", (res) => {
@@ -13,7 +14,11 @@ function OnDeckContextProvider(props) {
     }, [])
 
     useEffect(() => {
-        if (onDeck.length > 0) {
+        if (init) {
+            setInit(false);
+            return;
+        }
+        if (onDeck.length > 0 && props.view === "admin") {
             updateItems("setOnDeck", onDeck, (res) => { console.log(res) });
         }
     }, [onDeck])
@@ -34,5 +39,3 @@ function OnDeckContextProvider(props) {
 }
 
 export { OnDeckContext, OnDeckContextProvider };
-
-//const OnDeck = [1,3]

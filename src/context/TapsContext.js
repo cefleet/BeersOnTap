@@ -6,6 +6,8 @@ const TapsContext = createContext();
 function TapsContextProvider(props) {
     const [taps, setTaps] = useState([]);
     const [nextId, setNextId] = useState(taps.length > 0 ? taps.sort((a, b) => a.id - b.id)[taps.length - 1].id + 1 : 1);
+    const [init,setInit] = useState(true);
+
     const { updateItems, getItems } = Store();
 
     useEffect(() => {
@@ -16,9 +18,14 @@ function TapsContextProvider(props) {
     }, [])
 
     useEffect(() => {
-        if (taps.length > 0) {
+        if(init){
+            setInit(false);
+            return;
+        }
+        if (taps.length > 0 && props.view === "admin") {
             updateItems("setTaps", taps, (res) => { console.log(res) });
         }
+        
     }, [taps])
 
     const removeTap = (id) => {

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import { TapsContextProvider} from "./context/TapsContext";
-import { BeersContextProvider} from "./context/BeersContext";
-import { OnDeckContextProvider } from './context/OnDeckContext';
+import ViewSetter from "./ViewSetter";
 
-ReactDOM.render(<TapsContextProvider><BeersContextProvider><OnDeckContextProvider><App /></OnDeckContextProvider></BeersContextProvider></TapsContextProvider>, document.getElementById('root'));
+
+ReactDOM.render(<ViewSetter />, document.getElementById('root'));
+
+//This needs to be added
+//let viewChanged = new CustomEvent('changeView', { detail: "admin" });
+//window.dispatchEvent(viewChanged);
